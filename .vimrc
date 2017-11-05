@@ -1,0 +1,1 @@
+/home/k4t0mono/.vimrc
