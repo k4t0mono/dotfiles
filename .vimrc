@@ -111,6 +111,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'elzr/vim-json', {'for': '*.json'}
 Plug 'plasticboy/vim-markdown', {'for': '*.md'}
 Plug 'cespare/vim-toml', {'for': '*.toml'}
+Plug 'lervag/vimtex', {'for': '*.tex'}
+Plug 'jamessan/vim-gnupg'
 call plug#end()
 
 " }}}
@@ -222,6 +224,16 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
+
+" }}} 
+
+" ## gnupg-vim {{{
+
+let g:GPGPreferSign=1
+let g:GPGPossibleRecipients=[
+    \"KatoMono Enkeli (Stardust Being) <k4t0mono@gmail.com>",
+    \"Matheus Branco Borella <dark.ryu.550@gmail.com>"
+\]
 
 " }}}
 
