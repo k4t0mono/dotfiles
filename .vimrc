@@ -1,37 +1,49 @@
-" .vimrc
+" My personal vim config
 "
 " KatoMono Enkeli <k4t0mono@gmail.com>
 
 " # Leader shortcuts {{{
 
-" set leader
-let mapleader=","
+" Git
+nnoremap <leader>ep :!python % <CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gaa :Git add .<CR>
+nnoremap <leader>ga :Gwrite<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gps :Git push<CR>
+nnoremap <leader>gpl :Git pull<CR>
 
-" toggle gundo
-"nnoremap <leade>u :GundoToggle<CR>
+" Rust
+nnoremap <leader>cr :!cargo run<CR>
+nnoremap <leader>cb :!cargo build<CR>
+
+" Python
+nnoremap <leader>pr :!python %<CR>
+
+nnoremap <leader>tc :tabclose<CR>
 
 " }}}
 
-" # Colors {{{
+" # General config {{{
 
 " syntax highlight
 syntax enable
 
-" }}}
+" <3 UTF-8
+set encoding=utf8
 
-" # Inentation {{{
+" Unix file format
+set ffs=unix,dos,mac
+
+" set leader
+let mapleader=","
 
 " indentation
 set tabstop=4
 set softtabstop=4
-set expandtab
 set autoindent
 set smartindent
 set textwidth=79
-
-" }}}
-
-" # UI config {{{
 
 " line numer
 set number
@@ -40,7 +52,9 @@ set number
 set showcmd
 
 " highlight the current line
-"set cursorline
+set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgrey
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " filetype specific indent file
 filetype indent on
@@ -58,6 +72,14 @@ set showmatch
 set splitbelow
 set splitright
 
+" cursor in the middle
+set scrolloff=10
+
+" No backup
+set nobackup
+set nowb
+set noswapfile
+
 " }}}
 
 " # Searching {{{
@@ -71,6 +93,7 @@ set hlsearch
 " ingnore case
 set ignorecase
 set smartcase
+set magic
 
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
@@ -102,7 +125,6 @@ call plug#begin()
 Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'klen/python-mode', {'for': '*.py'}
 Plug 'rust-lang/rust.vim', {'for': '*.rs'}
 Plug 'tmhedberg/simpylfold'
 Plug 'scrooloose/syntastic'
@@ -113,6 +135,10 @@ Plug 'plasticboy/vim-markdown', {'for': '*.md'}
 Plug 'cespare/vim-toml', {'for': '*.toml'}
 Plug 'lervag/vimtex', {'for': '*.tex'}
 Plug 'jamessan/vim-gnupg'
+Plug 'vimwiki/vimwiki'
+Plug 'itchyny/calendar.vim'
+Plug 'robertbasic/vim-hugo-helper'
+Plug 'valloric/youcompleteme'
 call plug#end()
 
 " }}}
@@ -122,8 +148,6 @@ call plug#end()
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-"    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
-"                \:call <SID>StripTrailingWhitespaces()
     autocmd FileType java setlocal noexpandtab
     autocmd FileType java setlocal list
     autocmd FileType java setlocal listchars=tab:+\ ,eol:-
@@ -145,45 +169,16 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal softtabstop=2
 augroup END
 
-" }}}
-
-" # Backup {{{
-
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
-
-" <3 UTF-8
-set encoding=utf8
-
-" Unix file format
-set ffs=unix,dos
-
-"  }}}
-
-" # Functions {{{
-
-if has("autocmd")
-        autocmd BufWritePre * :silent !mkdir -p %:p:h
-end
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " }}}
 
- " # Plugins Config {{{
+  " # Plugins Config {{{
 
 " ## SimpyFold {{{
 
 " show docstring
 let g:SimpylFold_docstring_preview=1
-
-" }}}
-
-" ## python-mode {{{
-
-" use python3 syntax
-" let g:pymode_python = 'python3'
 
 " }}}
 
@@ -196,6 +191,8 @@ let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " }}}
 
@@ -230,10 +227,13 @@ let g:vim_markdown_json_frontmatter = 1
 " ## gnupg-vim {{{
 
 let g:GPGPreferSign=1
-let g:GPGPossibleRecipients=[
-    \"KatoMono Enkeli (Stardust Being) <k4t0mono@gmail.com>",
-    \"Matheus Branco Borella <dark.ryu.550@gmail.com>"
-\]
+
+" }}}
+
+"  ## youcompleteme {{{
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " }}}
 
