@@ -1,0 +1,167 @@
+;=====================================================
+;
+;    KatoMono' Polybar
+;
+;=====================================================
+
+[colors]
+	;background = #282828
+	background = #dd161619
+	background-alt = #dd383838
+
+	;foreground = #e8e8e8
+	foreground = #d83875
+	foreground-alt = #e8e8e8
+
+	primary = #82aaff
+	secondary = #c792ea
+	alert = #c3e88d
+
+
+[bar/main]
+	;monitor = LVDS1
+
+	width = 100%
+	height = 20
+	fixed-center = true
+
+	background = ${colors.background}
+	foreground = ${colors.foreground}
+
+	padding-left = 4
+	padding-right = 1
+
+	module-margin-left = 2
+	module-margin-right = 2
+
+	font-0 = "Hack Regular":antialias=true:size=10;2
+	font-1 = FontAwesome:size=9;2
+
+	modules-left = i3 
+	modules-center = 
+	modules-right = weather memory cpu volume date time
+
+	tray-position = right
+	tray-padding = 2
+	tray-background = ${colors.background}
+
+	scroll-up = i3wm-wsnext
+	scroll-down = i3wm-wsprev
+
+
+[bar/sec]
+	monitor = VGA1
+
+	width = 100%
+	height = 20
+	fixed-center = true
+
+	background = ${colors.background}
+	foreground = ${colors.foreground}
+
+	padding-left = 4
+	padding-right = 1
+
+	module-margin-left = 2
+	module-margin-right = 2
+
+	font-0 = "Hack Regular":antialias=true:size=10;2
+	font-1 = FontAwesome:size=9;2
+
+	modules-left =
+	modules-center = i3
+	modules-right =
+
+	scroll-up = i3wm-wsnext
+	scroll-down = i3wm-wsprev
+
+
+[settings]
+	screenchange-reload = true
+
+
+[global/wm]
+	margin-top = 5
+	margin-bottom = 5
+
+
+[module/date]
+	type = internal/date
+	interval = 1
+
+	date = "%y-%m-%d"
+
+	label = [ %{F#82aaff}%{F-} %date% ]
+
+
+[module/time]
+	type = internal/date
+	interval = 1
+
+	time = "%H:%M"
+	label = [ %{F#82aaff}%{F-} %time% ]
+
+
+[module/volume]
+	type = internal/volume
+	
+	format-volume = [ <label-volume> ]
+	label-volume = %{F#82aaff}%{F-} %percentage%%
+	
+	format-muted = [ <label-muted> ]
+	label-muted = muted
+
+
+[module/cpu]
+	type = internal/cpu
+	interval = 1
+
+	label = [ %{F#82aaff}%{F-} %percentage%% ]
+
+
+[module/memory]
+	type = internal/memory
+	interval = 1
+
+	label = [ %{F#82aaff}%{F-} %percentage_used%% ]
+
+
+[module/i3]
+	type = internal/i3
+
+	format = <label-state> <label-mode>
+	
+	index-sort = true
+	enable-click = true
+	enable-scroll = true
+	
+	label-mode = " %mode "
+	label-mode-foreground = ${colors.foreground}
+	label-mode-background = ${colors.background}
+
+	label-focused = [%index%]
+	label-focused-padding = 1
+	label-focused-foreground = ${colors.primary}
+
+	label-unfocused = " %index% "
+	label-unfocused-padding = 1
+
+	label-urgent = "-%index%-"
+	label-urgent-padding = 1
+	label-urgent-foreground = #fff
+	
+	ws-icon-1 = 1;0
+
+
+[module/weather]
+	type = custom/script
+	interval = 600
+
+	format = <label>
+
+	label = [ %{F#82aaff}%{F-} %output% ]
+	exec = ~/.config/polybar/weather.py
+
+
+;vim:ft=dosini
+
